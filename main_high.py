@@ -3,7 +3,14 @@
 with open('game_results.csv', 'r') as data:
     reader = csv.reader(data)
     next(reader)
-    sorted_data = sorted(reader, key=lambda row: int(row[1]), reverse=True)[:5]
+    player_scores = {}
+    for row in reader:
+        player = row[0]
+        score = int(row[1])
+        if player not in player_scores or score > player_scores[player]:
+            player_scores[player] = score
+
+sorted_data = sorted(player_scores.items(), key=lambda x: x[1], reverse=True)
         
        
 with open("highest_game_results.csv", "w", newline="") as file:
